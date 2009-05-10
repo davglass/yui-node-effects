@@ -1,0 +1,18 @@
+h1. Effects sugar for YUI3's Node
+
+
+Currently supports the following effects:
+
+* appear
+* fade
+* grow
+* pulse
+* shrink
+* shaketb
+* shakelr
+* fold
+* unfold
+* blindright
+* blindleft
+* blinddown
+* blindup
