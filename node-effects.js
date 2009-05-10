@@ -39,11 +39,15 @@ YUI.add('node-effects', function(Y) {
         }
     };
     Y.NodeList.prototype.effect = function(name, fn, opt) {
-        if (Y.x.Effects[name]) {
-            this.each(function(node) {
-                Y.x.Effects[name].call(node, fn, opt);
-            });
-        }
+        var func = null;
+        this.each(function(node, c) {
+            if ((c + 1) == this.size()) {
+                if (Y.Lang.isFunction(fn)) {
+                    func = fn;
+                }
+            }
+            node.effect.call(node, name, func, opt);
+        });
     };
     
     Y.namespace('x.Effects');
@@ -189,14 +193,14 @@ YUI.add('node-effects', function(Y) {
                     this.fx.setAttrs({ to: { left: o}, duration: .25, easing: Y.Easing.easeOut }).run();
                 } else {
                     this.fx.set('node', this);
-                    this.fx.after('end', Y.bind(_end, this));
+                    this.fx.after('end', Y.bind(_end, this, fn));
                     this.fx.setAttrs({ to: { left: 0 }, duration: .25, easing: Y.Easing.easeOut}).run();
                 }
             }, this));
             this.fx.setAttrs({ to: { left: offset}, duration: .25, easing: Y.Easing.easeOut }).run();
         },
         shaketb: function(fn) {
-            var max = 5, count = 1, offset = -10;
+            var max = 5, count = 1, offset = 10;
             //Remove when fixed..
             this.fx.set('node', this);
             if (fn) {
@@ -213,7 +217,7 @@ YUI.add('node-effects', function(Y) {
                     this.fx.setAttrs({ to: { top: o}, duration: .25, easing: Y.Easing.easeOut }).run();
                 } else {
                     this.fx.set('node', this);
-                    this.fx.after('end', Y.bind(_end, this));
+                    this.fx.after('end', Y.bind(_end, this, fn));
                     this.fx.setAttrs({ to: { top: 0 }, duration: .25, easing: Y.Easing.easeOut}).run();
                 }
             }, this));
@@ -225,6 +229,7 @@ YUI.add('node-effects', function(Y) {
                 return;
             }
             Y.x.Effects._run.call(this, {
+                show: true,
                 attrs: {
                     to: {
                         width: config.width,

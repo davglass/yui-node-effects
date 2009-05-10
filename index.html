@@ -24,6 +24,11 @@
     <div id="hd"><h1 id="header">Example</h1></div>
     <div id="bd">
         <div class="demo"></div>
+        <div class="demo"></div>
+        <div class="demo"></div>
+        <div class="demo"></div>
+        <div class="demo"></div>
+        <div class="demo"></div>
     </div>
     <div id="ft">&nbsp;</div>
 </div>
@@ -38,6 +43,7 @@
     }).use('node', 'anim', 'node-effects', function(Y) {
         console.log(Y);
         Y.get('div.demo').on('click', function(e) {
+            /*
             e.halt();
             this.setStyles({
                 width: '0',
@@ -123,6 +129,14 @@
             });
         });
         */
+        Y.get(document).on('click', function(e) {
+            Y.all('div.demo').effect('pulse', function() {
+                Y.all('div.demo').effect('shakelr', function() {
+                    Y.all('div.demo').effect('shaketb');
+                });
+            });
+        });
+        
     });
 </script>
 </body>
